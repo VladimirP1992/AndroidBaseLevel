@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ненастная погода</string>
+    <string name="app_name">Ненастная погода Halloween</string>
     <string name="temperature">- 666 С</string>
     <string name="comment">Ближайшие 24 часа улучшений не ожидается!</string>
     <string name="monday">ПН - Темно и страшно!</string>
