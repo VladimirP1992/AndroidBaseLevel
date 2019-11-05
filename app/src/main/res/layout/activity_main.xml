@@ -5,123 +5,112 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/sky"
+    android:background="@drawable/sky_day"
     tools:context=".MainActivity">
 
+    <LinearLayout
+        android:id="@+id/cityLinearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#C903A9F4"
+        android:orientation="horizontal"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/cityNameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/city_name"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/citySelectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#0D2DFD"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/city_selection_button"
+            android:textColor="#FDFBFB" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/sunImageView"
+        android:layout_width="174dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cityLinearLayout"
+        app:srcCompat="@drawable/sun" />
+
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="173dp"
-        android:layout_height="30dp"
+        android:id="@+id/temperatureTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif-black"
         android:text="@string/temperature"
         android:textAlignment="center"
-        android:textColor="#FF9800"
-        android:textSize="24sp"
+        android:textColor="#FF5722"
+        android:textSize="70sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="174dp"
-        android:layout_height="160dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pumpkin_green_light"
-        android:contentDescription="TODO" />
+        app:layout_constraintTop_toBottomOf="@+id/sunImageView" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="302dp"
-        android:layout_height="68dp"
-        android:background="#86009688"
+        android:id="@+id/commentTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#B403A9F4"
         android:fontFamily="sans-serif-black"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
         android:text="@string/comment"
         android:textAlignment="center"
         android:textColor="#FF9800"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/temperatureTextView" />
 
     <ScrollView
-        android:layout_width="353dp"
-        android:layout_height="168dp"
+        android:id="@+id/infoScrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/infoTextView">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#7A000000"
-                android:text="@string/monday"
-                android:textColor="#FAF6F6"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#70000000"
-                android:text="@string/tuesday"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#6F090808"
-                android:text="@string/wednesday"
-                android:textColor="#F8F7F7"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#6B000000"
-                android:text="@string/thursday"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#700C0B0B"
-                android:text="@string/friday"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#79070707"
-                android:text="@string/saturday"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#80070707"
-                android:text="@string/sunday"
-                android:textColor="#FF9800"
-                android:textStyle="bold" />
-        </LinearLayout>
+            android:orientation="vertical" />
     </ScrollView>
+
+    <TextView
+        android:id="@+id/infoTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-black"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/additional_information_label"
+        android:textColor="#020202"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentTextView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
