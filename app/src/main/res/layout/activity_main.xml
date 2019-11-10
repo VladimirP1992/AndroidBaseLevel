@@ -9,6 +9,26 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/settingsLinearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/settingsButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="#5A8025"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/settings"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/cityLinearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -18,7 +38,7 @@
         android:paddingEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/settingsLinearLayout">
 
         <TextView
             android:id="@+id/cityNameTextView"
