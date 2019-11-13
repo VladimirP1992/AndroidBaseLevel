@@ -2,6 +2,7 @@ package ru.geekbrains.androidBase.lesson1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,7 +12,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-public class CitySelectionActivity extends AppCompatActivity{
+public class CitySelectionActivity extends AppCompatActivity implements ConstantNames{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +33,8 @@ public class CitySelectionActivity extends AppCompatActivity{
 
         //find all views that should be saved
         final AutoCompleteTextView cityNameField = findViewById(R.id.cityAutoCompleteTextView);
-        Switch windSwitch = findViewById(R.id.windSwitch);
-        Switch pressureSwitch = findViewById(R.id.pressureSwitch);
+        final Switch windSwitch = findViewById(R.id.windSwitch);
+        final Switch pressureSwitch = findViewById(R.id.pressureSwitch);
 
         //get saved information from singleton
         cityNameField.setText(presenter.getCityFieldText());
@@ -41,13 +42,6 @@ public class CitySelectionActivity extends AppCompatActivity{
         pressureSwitch.setChecked(presenter.isPressureSwitchChecked());
 
         //Save changes
-//        cityNameField.setOnHoverListener(new View.OnHoverListener() {
-//            @Override
-//            public boolean onHover(View v, MotionEvent event) {
-//                presenter.setCityFieldText(cityNameField.getText().toString());
-//                return false;
-//            }
-//        });
         cityNameField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -79,6 +73,16 @@ public class CitySelectionActivity extends AppCompatActivity{
     }
 
     public void onBack(){
+        //Lesson4 - exercise 1
+        final AutoCompleteTextView cityNameField = findViewById(R.id.cityAutoCompleteTextView);
+        final Switch windSwitch = findViewById(R.id.windSwitch);
+        final Switch pressureSwitch = findViewById(R.id.pressureSwitch);
+        CitySelectionInfoParcel additionalWeatherInfo = new CitySelectionInfoParcel(cityNameField.getText().toString(), windSwitch.isChecked(), pressureSwitch.isChecked());
+
+        Intent intentResult = new Intent();
+        intentResult.putExtra(ADDITIONAL_INFO, additionalWeatherInfo);
+        setResult(RESULT_OK, intentResult);
+
         finish();
     }
 }
