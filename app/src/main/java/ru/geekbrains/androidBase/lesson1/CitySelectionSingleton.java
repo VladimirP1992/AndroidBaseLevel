@@ -13,8 +13,8 @@ public class CitySelectionSingleton {
 
     private CitySelectionSingleton(){
         cityFieldText = "";
-        windSwitchState = false;
-        pressureSwitchState = false;
+        windSwitchState = true;
+        pressureSwitchState = true;
     }
 
     public String getCityFieldText() {
