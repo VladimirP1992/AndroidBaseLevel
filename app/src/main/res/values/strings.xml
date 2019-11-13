@@ -12,5 +12,10 @@
     <string name="wind_switch_information_label">Show wind information</string>
     <string name="pressure_switch_information_label">Show pressure information</string>
     <string name="dark_theme_label">Dark theme</string>
+    <string name="windMainLabel">Wind:</string>
+    <string name="pressureMainLabel">Pressure:</string>
+    <string name="windMainInfo">SW 5 m/s</string>
+    <string name="pressureMainInfo">800 mm of mercury</string>
+    <string name="yandex_pogoda_for_city">yandex.pogoda for city</string>
 
 </resources>
