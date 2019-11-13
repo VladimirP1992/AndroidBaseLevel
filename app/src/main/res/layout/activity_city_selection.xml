@@ -64,7 +64,7 @@
         app:layout_constraintTop_toBottomOf="@+id/enterCityTextView" />
 
     <LinearLayout
-        android:id="@+id/windLinearLayout"
+        android:id="@+id/windToggleLinearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -89,12 +89,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:checked="false" />
+            android:checked="true" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/pressureLinearLayout"
+        android:id="@+id/pressureToggleLinearLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -103,7 +103,7 @@
         android:paddingEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/windLinearLayout">
+        app:layout_constraintTop_toBottomOf="@+id/windToggleLinearLayout">
 
         <TextView
             android:id="@+id/pressureToggleTextView"
@@ -118,7 +118,8 @@
             android:id="@+id/pressureSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:checked="true" />
 
     </LinearLayout>
 
@@ -131,6 +132,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pressureLinearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/pressureToggleLinearLayout"
         app:srcCompat="@drawable/place_pointer" />
 </androidx.constraintlayout.widget.ConstraintLayout>
