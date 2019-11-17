@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -77,30 +76,32 @@ public class MainActivity extends AppCompatActivity implements ConstantNames{
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        //Lesson 4 - exercise 1
-        if(requestCode != REQUEST_CODE) {
-            super.onActivityResult(requestCode, resultCode, data);
-            return;
-        }
-        if(resultCode == RESULT_OK){
-            TextView cityNameTextView = findViewById(R.id.cityNameTextView);
-            LinearLayout windInfo = findViewById(R.id.windInfoLinearLayout);
-            LinearLayout pressureInfo = findViewById(R.id.pressureInfoLinearLayout);
+        //This logic was moved to this.onResume() and AdditionalInfoFragment.onResume() methods
 
-            CitySelectionInfoParcel additionalInfo = (CitySelectionInfoParcel) data.getExtras().getSerializable(ADDITIONAL_INFO);
-            cityNameTextView.setText(additionalInfo.getCityName());
-            if(additionalInfo.isWindChecked()){
-                windInfo.setVisibility(View.VISIBLE);
-            }else {
-                windInfo.setVisibility(View.GONE);
-            }
-            if(additionalInfo.isPressureChecked()){
-                pressureInfo.setVisibility(View.VISIBLE);
-            }
-            else {
-                pressureInfo.setVisibility(View.GONE);
-            }
-        }
+        //Lesson 4 - exercise 1
+//        if(requestCode != REQUEST_CODE) {
+//            super.onActivityResult(requestCode, resultCode, data);
+//            return;
+//        }
+//        if(resultCode == RESULT_OK){
+//            TextView cityNameTextView = findViewById(R.id.cityNameTextView);
+//            LinearLayout windInfo = findViewById(R.id.windInfoLinearLayout);
+//            LinearLayout pressureInfo = findViewById(R.id.pressureInfoLinearLayout);
+//
+//            CitySelectionInfoParcel additionalInfo = (CitySelectionInfoParcel) data.getExtras().getSerializable(ADDITIONAL_INFO);
+//            cityNameTextView.setText(additionalInfo.getCityName());
+//            if(additionalInfo.isWindChecked()){
+//                windInfo.setVisibility(View.VISIBLE);
+//            }else {
+//                windInfo.setVisibility(View.GONE);
+//            }
+//            if(additionalInfo.isPressureChecked()){
+//                pressureInfo.setVisibility(View.VISIBLE);
+//            }
+//            else {
+//                pressureInfo.setVisibility(View.GONE);
+//            }
+//        }
     }
 
     //==========Life cycle outputs===========================================================================
@@ -121,6 +122,13 @@ public class MainActivity extends AppCompatActivity implements ConstantNames{
     @Override
     protected void onResume() {
         super.onResume();
+        //moved from onActivityResult method (but here is Singleton initialisation)
+        TextView cityNameTextView = findViewById(R.id.cityNameTextView);
+        if(CitySelectionSingleton.getInstance().getCityFieldText().isEmpty())
+            cityNameTextView.setText(getResources().getString(R.string.no_city_selected));
+        else
+            cityNameTextView.setText(CitySelectionSingleton.getInstance().getCityFieldText());
+
         Toast.makeText(getApplicationContext(), "onResume()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onResume()");
     }
