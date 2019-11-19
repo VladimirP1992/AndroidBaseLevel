@@ -2,6 +2,9 @@ package ru.geekbrains.androidBase.lesson1;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -47,10 +50,30 @@ public class MainActivity extends AppCompatActivity implements ConstantNames{
             }
         });
 
+        //Lesson 6 - exercise 1, 2
+        createWeekWeatherList();
+
 
         Toast.makeText(getApplicationContext(), "onCreate()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onCreate()");
 
+    }
+
+    private void createWeekWeatherList() {
+        ////Lesson 6 - exercise 1
+        RecyclerView weekWeatherList = findViewById(R.id.weekWeatherList);
+        weekWeatherList.setHasFixedSize(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        weekWeatherList.setLayoutManager(linearLayoutManager);
+
+        String[] weekDays = getResources().getStringArray(R.array.weekDaysNames);
+        //Here may be stringArray localisation
+        weekWeatherList.setAdapter(new WeekWeatherAdapter(weekDays));
+
+        //Lesson 6 - exercise 2
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(this,  LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getDrawable(R.drawable.separator));
+        weekWeatherList.addItemDecoration(itemDecoration);
     }
 
     public void openCitySelectActivity(){
