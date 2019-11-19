@@ -75,9 +75,9 @@
 
     <ImageView
         android:id="@+id/sunImageView"
-        android:layout_width="174dp"
-        android:layout_height="160dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cityLinearLayout"
@@ -114,21 +114,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/temperatureTextView" />
 
-    <ScrollView
-        android:id="@+id/infoScrollView"
+    <fragment
+        android:id="@+id/additionalInfoFragment"
+        android:name="ru.geekbrains.androidBase.lesson1.AdditionalInfoFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentTextView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/weekWeatherList"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/commentTextView">
-
-        <fragment
-            android:id="@+id/additionalInfoFragment"
-            android:name="ru.geekbrains.androidBase.lesson1.AdditionalInfoFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
+        app:layout_constraintTop_toBottomOf="@+id/additionalInfoFragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
