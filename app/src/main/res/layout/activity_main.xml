@@ -13,14 +13,18 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/browserButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="clip_vertical"
+            android:layout_marginEnd="5dp"
             android:layout_weight="1"
             android:backgroundTint="#FF5722"
             android:fontFamily="sans-serif-black"
@@ -28,10 +32,12 @@
             android:textColor="#FAFAFA"
             android:textStyle="bold" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/settingsButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="clip_vertical"
+            android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:backgroundTint="#5A8025"
             android:fontFamily="sans-serif-black"
@@ -62,7 +68,7 @@
             android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/citySelectButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

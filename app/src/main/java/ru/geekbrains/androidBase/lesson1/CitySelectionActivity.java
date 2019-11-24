@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 public class CitySelectionActivity extends AppCompatActivity implements ConstantNames{
 
     @Override
@@ -32,17 +34,17 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
         final CitySelectionSingleton presenter = CitySelectionSingleton.getInstance();
 
         //find all views that should be saved
-        final AutoCompleteTextView cityNameField = findViewById(R.id.cityAutoCompleteTextView);
+        final TextInputLayout cityNameField = findViewById(R.id.cityTextInputLayout);
         final Switch windSwitch = findViewById(R.id.windSwitch);
         final Switch pressureSwitch = findViewById(R.id.pressureSwitch);
 
         //get saved information from singleton
-        cityNameField.setText(presenter.getCityFieldText());
+        cityNameField.getEditText().setText(presenter.getCityFieldText());
         windSwitch.setChecked(presenter.isWindSwitchChecked());
         pressureSwitch.setChecked(presenter.isPressureSwitchChecked());
 
         //Save changes
-        cityNameField.addTextChangedListener(new TextWatcher() {
+        cityNameField.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -50,7 +52,7 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                presenter.setCityFieldText(cityNameField.getText().toString());
+                presenter.setCityFieldText(cityNameField.getEditText().getText().toString());
             }
 
             @Override
@@ -58,12 +60,14 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
 
             }
         });
+
         windSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 presenter.setWindSwitchState(isChecked);
             }
         });
+
         pressureSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -74,10 +78,10 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
 
     public void onBack(){
         //Lesson4 - exercise 1
-        final AutoCompleteTextView cityNameField = findViewById(R.id.cityAutoCompleteTextView);
+        final TextInputLayout cityNameField = findViewById(R.id.cityTextInputLayout);
         final Switch windSwitch = findViewById(R.id.windSwitch);
         final Switch pressureSwitch = findViewById(R.id.pressureSwitch);
-        CitySelectionInfoParcel additionalWeatherInfo = new CitySelectionInfoParcel(cityNameField.getText().toString(), windSwitch.isChecked(), pressureSwitch.isChecked());
+        CitySelectionInfoParcel additionalWeatherInfo = new CitySelectionInfoParcel(cityNameField.getEditText().getText().toString(), windSwitch.isChecked(), pressureSwitch.isChecked());
 
         Intent intentResult = new Intent();
         intentResult.putExtra(ADDITIONAL_INFO, additionalWeatherInfo);
