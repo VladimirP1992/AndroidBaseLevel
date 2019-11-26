@@ -26,11 +26,8 @@
             android:layout_gravity="clip_vertical"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            android:backgroundTint="#FF5722"
-            android:fontFamily="sans-serif-black"
-            android:text="@string/yandex_pogoda_for_city"
-            android:textColor="#FAFAFA"
-            android:textStyle="bold" />
+            android:backgroundTint="@color/colorDarkOrange"
+            android:text="@string/yandex_pogoda_for_city" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/settingsButton"
@@ -40,10 +37,7 @@
             android:layout_marginStart="5dp"
             android:layout_weight="1"
             android:backgroundTint="#5A8025"
-            android:fontFamily="sans-serif-black"
-            android:text="@string/settings"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="@string/settings" />
     </LinearLayout>
 
     <LinearLayout
@@ -63,10 +57,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:fontFamily="sans-serif-black"
             android:text="@string/no_city_selected"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:textAlignment="viewStart" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/citySelectButton"
@@ -74,9 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="#0D2DFD"
-            android:fontFamily="sans-serif-black"
-            android:text="@string/city_selection_button"
-            android:textColor="#FDFBFB" />
+            android:text="@string/city_selection_button" />
     </LinearLayout>
 
     <ImageView
@@ -94,12 +84,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-black"
         android:text="@string/temperature"
         android:textAlignment="center"
-        android:textColor="#FF5722"
+        android:textColor="@color/colorDarkOrange"
         android:textSize="70sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/sunImageView" />
@@ -109,7 +97,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#B403A9F4"
-        android:fontFamily="sans-serif-black"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:text="@string/comment"

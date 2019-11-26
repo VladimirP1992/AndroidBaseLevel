@@ -12,12 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#3F51B5"
-        android:fontFamily="sans-serif-black"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:text="TextView"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        android:textAlignment="viewStart" />
 
     <LinearLayout
         android:id="@+id/wi_temperatureLinearLayout"
@@ -29,23 +27,17 @@
             android:id="@+id/wi_temperatureLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="@string/temperatureMainLabel"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="@string/temperatureMainLabel" />
 
         <TextView
             android:id="@+id/wi_temperatureValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="TextView"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="TextView" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,23 +50,17 @@
             android:id="@+id/wi_windLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="@string/windMainLabel"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="@string/windMainLabel" />
 
         <TextView
             android:id="@+id/wi_windValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="TextView"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="TextView" />
     </LinearLayout>
 
     <LinearLayout
@@ -87,22 +73,16 @@
             android:id="@+id/wi_pressureLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="@string/pressureMainLabel"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="@string/pressureMainLabel" />
 
         <TextView
             android:id="@+id/wi_pressureValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="TextView"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="TextView" />
     </LinearLayout>
 </LinearLayout>

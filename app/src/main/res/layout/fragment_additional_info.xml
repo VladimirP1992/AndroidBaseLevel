@@ -14,11 +14,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#3F51B5"
-        android:fontFamily="sans-serif-black"
         android:padding="5dp"
         android:text="@string/additional_information_label"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp" />
+        android:textAlignment="viewStart" />
 
     <LinearLayout
         android:id="@+id/windInfoLinearLayout"
@@ -30,21 +28,15 @@
             android:id="@+id/windLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:padding="5dp"
-            android:text="@string/windMainLabel"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="@string/windMainLabel" />
 
         <TextView
             android:id="@+id/windInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:padding="5dp"
-            android:text="@string/windMainInfo"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="@string/windMainInfo" />
     </LinearLayout>
 
     <LinearLayout
@@ -57,20 +49,14 @@
             android:id="@+id/pressureLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:padding="5dp"
-            android:text="@string/pressureMainLabel"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="@string/pressureMainLabel" />
 
         <TextView
             android:id="@+id/pressureInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
             android:padding="5dp"
-            android:text="@string/pressureMainInfo"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            android:text="@string/pressureMainInfo" />
     </LinearLayout>
 </LinearLayout>
