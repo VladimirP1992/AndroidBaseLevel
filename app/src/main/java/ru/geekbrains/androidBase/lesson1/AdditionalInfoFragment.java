@@ -9,11 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import ru.geekbrains.androidBase.lesson1.model.WeatherModel;
+import ru.geekbrains.androidBase.lesson1.model.WeatherProvider;
+import ru.geekbrains.androidBase.lesson1.model.WeatherProviderListener;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdditionalInfoFragment extends Fragment {
+public class AdditionalInfoFragment extends Fragment implements WeatherProviderListener {
 
 
     public AdditionalInfoFragment() {
@@ -31,6 +36,7 @@ public class AdditionalInfoFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        WeatherProvider.getInstance().addListener(this);
 
         final CitySelectionSingleton presenter = CitySelectionSingleton.getInstance();
         LinearLayout windInfo = getActivity().findViewById(R.id.windInfoLinearLayout);
@@ -38,5 +44,22 @@ public class AdditionalInfoFragment extends Fragment {
 
         windInfo.setVisibility(presenter.isWindSwitchChecked() ? View.VISIBLE : View.GONE);
         pressureInfo.setVisibility(presenter.isPressureSwitchChecked() ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void updateWeather(WeatherModel model) {
+        ((TextView) getActivity().findViewById(R.id.windInfo)).setText(String.format("%d m/s", model.getWind().getSpeed()));
+        ((TextView) getActivity().findViewById(R.id.pressureInfo)).setText(String.format("%d mm of mercury", model.getMain().getPressure()));
+    }
+
+    @Override
+    public void onPause() {
+        WeatherProvider.getInstance().removeListener(this);
+        super.onPause();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 }

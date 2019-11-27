@@ -15,7 +15,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity implements ConstantNames{
+import ru.geekbrains.androidBase.lesson1.model.WeatherModel;
+import ru.geekbrains.androidBase.lesson1.model.WeatherProvider;
+import ru.geekbrains.androidBase.lesson1.model.WeatherProviderListener;
+
+public class MainActivity extends AppCompatActivity implements ConstantNames, WeatherProviderListener {
 
     private static final String TAG = "Lesson3";
     private static final int REQUEST_CODE = 13579;
@@ -125,6 +129,7 @@ public class MainActivity extends AppCompatActivity implements ConstantNames{
 //                pressureInfo.setVisibility(View.GONE);
 //            }
 //        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     //==========Life cycle outputs===========================================================================
@@ -145,6 +150,8 @@ public class MainActivity extends AppCompatActivity implements ConstantNames{
     @Override
     protected void onResume() {
         super.onResume();
+        WeatherProvider.getInstance().addListener(this);
+
         //moved from onActivityResult method (but here is Singleton initialisation)
         TextView cityNameTextView = findViewById(R.id.cityNameTextView);
         if(CitySelectionSingleton.getInstance().getCityFieldText().isEmpty())
@@ -158,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements ConstantNames{
 
     @Override
     protected void onPause() {
+        WeatherProvider.getInstance().removeListener(this);
         super.onPause();
         Toast.makeText(getApplicationContext(), "onPause()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onPause()");
@@ -191,4 +199,8 @@ public class MainActivity extends AppCompatActivity implements ConstantNames{
         Log.d(TAG,"onDestroy()");
     }
 
+    @Override
+    public void updateWeather(WeatherModel model) {
+        ((TextView) findViewById(R.id.temperatureTextView)).setText(String.format("%d C",WeatherProvider.kelvinToCelsius(model.getMain().getTemp())));
+    }
 }
