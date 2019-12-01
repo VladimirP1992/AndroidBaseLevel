@@ -29,5 +29,4 @@
         <include layout="@layout/content_main" />
     </LinearLayout>
 
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
