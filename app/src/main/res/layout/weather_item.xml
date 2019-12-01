@@ -11,7 +11,7 @@
         android:id="@+id/wi_weekDay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3F51B5"
+        android:background="@color/headersBackground"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:text="TextView"

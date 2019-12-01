@@ -13,7 +13,7 @@
         android:id="@+id/infoLabel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#3F51B5"
+        android:background="@color/headersBackground"
         android:padding="5dp"
         android:text="@string/additional_information_label"
         android:textAlignment="viewStart" />

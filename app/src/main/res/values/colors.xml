@@ -5,5 +5,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorDarkOrange">#FF5722</color>
     <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
     <color name="colorGray">#A0A0A0</color>
+    <color name="headersBackground">#3F51B5</color>
+    <color name="menuItemBackground">#3F51B5</color>
 </resources>
