@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sky_day"
+    android:orientation="vertical"
+    tools:context=".MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <LinearLayout
+        android:id="@+id/mainScreenLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/cityLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#C935B9F0"
+            android:orientation="horizontal"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp">
+
+            <TextView
+                android:id="@+id/cityNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="@string/no_city_selected"
+                android:textAlignment="viewStart" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/citySelectButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#0D2DFD"
+                android:text="@string/city_selection_button" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/sunImageView"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/sun" />
+
+        <TextView
+            android:id="@+id/temperatureTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/temperature"
+            android:textAlignment="center"
+            android:textColor="@color/colorDarkOrange"
+            android:textSize="70sp" />
+
+        <TextView
+            android:id="@+id/commentTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#B403A9F4"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:text="@string/comment"
+            android:textAlignment="center"
+            android:textColor="#FF9800"
+            android:textSize="24sp" />
+
+        <fragment
+            android:id="@+id/additionalInfoFragment"
+            android:name="ru.geekbrains.androidBase.lesson1.AdditionalInfoFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/weekWeatherList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+</ScrollView>
