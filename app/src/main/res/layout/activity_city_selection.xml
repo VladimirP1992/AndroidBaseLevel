@@ -60,7 +60,9 @@
             android:hint="@string/enter_the_city_name_hint"
             android:inputType="text"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp" />
+            android:paddingEnd="16dp"
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorWhite" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout

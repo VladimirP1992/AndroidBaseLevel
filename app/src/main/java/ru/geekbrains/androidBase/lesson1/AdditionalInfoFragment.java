@@ -49,7 +49,7 @@ public class AdditionalInfoFragment extends Fragment implements WeatherProviderL
     @Override
     public void updateWeather(WeatherModel model) {
         ((TextView) getActivity().findViewById(R.id.windInfo)).setText(String.format("%d m/s", model.getWind().getSpeed()));
-        ((TextView) getActivity().findViewById(R.id.pressureInfo)).setText(String.format("%d mm of mercury", model.getMain().getPressure()));
+        ((TextView) getActivity().findViewById(R.id.pressureInfo)).setText(String.format("%d hpa", model.getMain().getPressure()));
     }
 
     @Override

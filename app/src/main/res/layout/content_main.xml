@@ -72,6 +72,12 @@
             android:textSize="24sp" />
 
         <fragment
+            android:id="@+id/sensorsInfoFragment"
+            android:name="ru.geekbrains.androidBase.lesson1.SensorsInfoFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <fragment
             android:id="@+id/additionalInfoFragment"
             android:name="ru.geekbrains.androidBase.lesson1.AdditionalInfoFragment"
             android:layout_width="match_parent"

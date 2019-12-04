@@ -28,7 +28,7 @@ public class WeekWeatherAdapter extends RecyclerView.Adapter<WeekWeatherAdapter.
 
         String temperatureValue = "+24 C";
         String windValue = "5 m/s (SW)";
-        String pressureValue = "800 mm of mercury";
+        String pressureValue = "1000 hpa";
 
         holder.fillItemView(weekDays[position], temperatureValue, windValue, pressureValue);
     }

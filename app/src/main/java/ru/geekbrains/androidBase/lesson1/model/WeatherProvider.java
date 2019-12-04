@@ -23,33 +23,41 @@ public class WeatherProvider {
     Handler handler = new Handler();
     private static WeatherProvider instance = null;
     private Timer timer;
+    private static String cityName = "Moscow"; //Default value;
+    private static Object synchObject = new Object();
 
-    private WeatherProvider(){
+    public static void setCity(String cityName) {
+        synchronized (synchObject) {
+            WeatherProvider.cityName = cityName;
+        }
+    }
+
+    private WeatherProvider() {
         listenerSet = new HashSet<>();
         startRequests();
     }
 
-    public static int kelvinToCelsius(double kelvinTemperature){
-        return (int)(kelvinTemperature - 273.15);
+    public static int kelvinToCelsius(double kelvinTemperature) {
+        return (int) (kelvinTemperature - 273.15);
     }
 
-    public static WeatherProvider getInstance(){
+    public static WeatherProvider getInstance() {
         return instance = (instance == null) ? new WeatherProvider() : instance;
     }
 
-    public void addListener(WeatherProviderListener listener){
-        if(!listenerSet.contains(listener)){
+    public void addListener(WeatherProviderListener listener) {
+        if (!listenerSet.contains(listener)) {
             listenerSet.add(listener);
         }
     }
 
-    public void removeListener(WeatherProviderListener listener){
-        if(listenerSet.contains(listener)){
+    public void removeListener(WeatherProviderListener listener) {
+        if (listenerSet.contains(listener)) {
             listenerSet.remove(listener);
         }
     }
 
-    private WeatherModel getWeather(String cityName){
+    private WeatherModel getWeather(String cityName) {
         WeatherModel model = null;
 
         HttpURLConnection urlConnection = null;
@@ -62,7 +70,7 @@ public class WeatherProvider {
             urlConnection.setRequestMethod("GET");
             urlConnection.setConnectTimeout(10000);
 
-            if(urlConnection.getResponseCode() >= 200 && urlConnection.getResponseCode() < 299) {
+            if (urlConnection.getResponseCode() == 200) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     final String result = in.lines().collect(Collectors.joining("\n"));
@@ -83,28 +91,30 @@ public class WeatherProvider {
         return model;
     }
 
-    private void startRequests(){
+    private void startRequests() {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                final WeatherModel model = getWeather("Moscow"); //BAD - hardcoded
-                if (model == null) return;
+                synchronized (synchObject) {
+                    final WeatherModel model = getWeather(WeatherProvider.cityName); //BAD - hardcoded
+                    if (model == null) return;
 
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        for (WeatherProviderListener listener: listenerSet){
-                            listener.updateWeather(model);
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (WeatherProviderListener listener : listenerSet) {
+                                listener.updateWeather(model);
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
-        },1000, 10000);
+        }, 1000, 10000);
     }
 
-    void stop(){
-        if(timer != null){
+    void stop() {
+        if (timer != null) {
             timer.cancel();
         }
         listenerSet.clear();

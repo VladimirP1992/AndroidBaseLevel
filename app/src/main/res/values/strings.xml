@@ -2,6 +2,7 @@
     <string name="app_name">The best weather app</string>
     <string name="settings">Settings</string>
     <string name="no_city_selected">No city selected</string>
+    <string name="moscow">Moscow</string>
     <string name="city_selection_button">city selection</string>
     <string name="comment">No precipitation expected today!</string>
     <string name="temperature">+ 24 С</string>
@@ -16,12 +17,12 @@
     <string name="windMainLabel">Wind:</string>
     <string name="pressureMainLabel">Pressure:</string>
     <string name="windMainInfo">5 m/s (SW)</string>
-    <string name="pressureMainInfo">800 mm of mercury</string>
+    <string name="pressureMainInfo">1000 hpa</string>
     <string name="yandex_pogoda_for_city">yandex.pogoda for city</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="about_developer">About developer</string>
     <string name="feedback_form">Feedback form</string>
+    <string name="phone_sensor_info_label">Phone sensors readings:</string>
+    <string name="temperature_sensor_label">Temperature sensor:</string>
+    <string name="humidity_sensor_label">Humidity sensor:</string>
 
 </resources>
