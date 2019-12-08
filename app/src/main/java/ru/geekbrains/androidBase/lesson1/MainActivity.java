@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -18,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Random;
 
 import ru.geekbrains.androidBase.lesson1.model.WeatherModel;
 import ru.geekbrains.androidBase.lesson1.model.WeatherProvider;
@@ -114,6 +117,9 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
     @Override
     protected void onResume() {
         super.onResume();
+        //Android advanced level - lesson 3 Async Task
+        heavyProcedure();
+
         WeatherProvider.getInstance().addListener(this);
 
         //moved from onActivityResult method (but here is Singleton initialisation)
@@ -125,6 +131,32 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
 
         Toast.makeText(getApplicationContext(), "onResume()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onResume()");
+    }
+
+    private void heavyProcedure() {
+        AsyncTask<Integer,String,String> asyncTask = new AsyncTask<Integer, String, String>() {
+            @Override
+            protected String doInBackground(Integer... value) {
+                long start = System.currentTimeMillis();
+                Random random = new Random();
+                for (int i = 0; i < value[0]; i++){
+                    double variable = random.nextInt(5)+1;
+                    variable = variable * Math.sin(variable*variable/variable)%variable + Math.pow(Math.abs(variable), Math.cos(variable))/variable*variable*0.5%variable - variable;
+                }
+                long finish = System.currentTimeMillis();
+                String message = String.format("Heavy procedure have been completed at %d seconds", ((finish-start)/1000));
+
+                return message;
+            }
+
+            @Override
+            protected void onPostExecute(String message) {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                super.onPostExecute(message);
+            }
+        };
+
+        asyncTask.execute(100000000);
     }
 
     @Override
