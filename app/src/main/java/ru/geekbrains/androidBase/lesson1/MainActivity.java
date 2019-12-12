@@ -32,6 +32,11 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
     private static final String TAG = "Lesson3";
     private static final int REQUEST_CODE = 13579;
 
+    Button citySelectButton;
+    RecyclerView weekWeatherList;
+    TextView cityNameTextView;
+    TextView temperatureTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +44,8 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
         Toolbar toolbar = findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
-        Button citySelectButton = findViewById(R.id.citySelectButton);
+        initViews();
+
         citySelectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +64,13 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
 
     }
 
+    private void initViews(){
+        citySelectButton = findViewById(R.id.citySelectButton);
+        weekWeatherList = findViewById(R.id.weekWeatherList);
+        cityNameTextView = findViewById(R.id.cityNameTextView);
+        temperatureTextView = findViewById(R.id.temperatureTextView);
+    }
+
     private void loadPreferences() {
         SharedPreferences appPreferences = getPreferences(MODE_PRIVATE);
         AppSettingsSingleton appSettingsSingleton = AppSettingsSingleton.getInstance();
@@ -70,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
 
     private void createWeekWeatherList() {
         ////Lesson 6 - exercise 1
-        RecyclerView weekWeatherList = findViewById(R.id.weekWeatherList);
         weekWeatherList.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         weekWeatherList.setLayoutManager(linearLayoutManager);
@@ -98,7 +110,6 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
     }
 
     public void openBrowserActivity(){
-        final TextView cityNameTextView = findViewById(R.id.cityNameTextView);
         String url = "https://yandex.ru/pogoda/" + cityNameTextView.getText().toString();
         Uri uri = Uri.parse(url);
 
@@ -138,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
         WeatherProvider.getInstance().addListener(this);
 
         //moved from onActivityResult method (but here is Singleton initialisation)
-        TextView cityNameTextView = findViewById(R.id.cityNameTextView);
         if(AppSettingsSingleton.getInstance().getCityFieldText().isEmpty())
             cityNameTextView.setText(getResources().getString(R.string.no_city_selected));
         else
@@ -183,21 +193,9 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
     protected void onPause() {
         WeatherProvider.getInstance().removeListener(this);
 
-        //Android advanced level - lesson 4 SharedPreferences
-        savePreferences();
-
         super.onPause();
         Toast.makeText(getApplicationContext(), "onPause()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onPause()");
-    }
-    private void savePreferences() {
-        SharedPreferences appPreferences = getPreferences(MODE_PRIVATE);
-        AppSettingsSingleton appSettingsSingleton = AppSettingsSingleton.getInstance();
-
-        appPreferences.edit().putString("cityName", appSettingsSingleton.getCityFieldText()).apply();
-        appPreferences.edit().putBoolean("windSwitchState", appSettingsSingleton.isWindSwitchChecked()).apply();
-        appPreferences.edit().putBoolean("pressureSwitchState", appSettingsSingleton.isPressureSwitchChecked()).apply();
-        appPreferences.edit().putBoolean("darkThemeSwitchState", appSettingsSingleton.isDarkThemeSwitchChecked()).apply();
     }
 
     @Override
@@ -254,6 +252,6 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
 
     @Override
     public void updateWeather(WeatherModel model) {
-        ((TextView) findViewById(R.id.temperatureTextView)).setText(String.format("%d C",WeatherProvider.kelvinToCelsius(model.getMain().getTemp())));
+        temperatureTextView.setText(String.format("%d C",WeatherProvider.kelvinToCelsius(model.getMain().getTemp())));
     }
 }

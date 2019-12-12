@@ -2,6 +2,7 @@ package ru.geekbrains.androidBase.lesson1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,12 +11,16 @@ import android.widget.Switch;
 
 public class SettingsActivity extends AppCompatActivity{
 
+    Button backButton;
+    Switch darkThemeSwitch;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        Button backButton = findViewById(R.id.backButton);
+        initViews();
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -23,7 +28,6 @@ public class SettingsActivity extends AppCompatActivity{
             }
         });
 
-        Switch darkThemeSwitch = findViewById(R.id.darkThemeSwitch);
         final AppSettingsSingleton presenter = AppSettingsSingleton.getInstance();
 
         darkThemeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -34,15 +38,33 @@ public class SettingsActivity extends AppCompatActivity{
         });
     }
 
+    private void initViews(){
+        backButton = findViewById(R.id.backButton);
+        darkThemeSwitch = findViewById(R.id.darkThemeSwitch);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
 
-        final Switch darkThemeSwitch = findViewById(R.id.darkThemeSwitch);
         darkThemeSwitch.setChecked(AppSettingsSingleton.getInstance().isDarkThemeSwitchChecked());
     }
 
     public void onBack(){
         finish();
+    }
+
+
+    @Override
+    protected void onPause() {
+        savePreferences();
+        super.onPause();
+    }
+
+    private void savePreferences() {
+        SharedPreferences appPreferences = getPreferences(MODE_PRIVATE);
+        AppSettingsSingleton appSettingsSingleton = AppSettingsSingleton.getInstance();
+
+        appPreferences.edit().putBoolean("darkThemeSwitchState", appSettingsSingleton.isDarkThemeSwitchChecked()).apply();
     }
 }

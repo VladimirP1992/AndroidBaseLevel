@@ -3,6 +3,7 @@ package ru.geekbrains.androidBase.lesson1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,12 +16,18 @@ import com.google.android.material.textfield.TextInputLayout;
 
 public class CitySelectionActivity extends AppCompatActivity implements ConstantNames{
 
+    TextInputLayout cityNameField;
+    Switch windSwitch;
+    Switch pressureSwitch;
+    Button backButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_selection);
 
-        Button backButton = findViewById(R.id.backButton);
+        initViews();
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,11 +38,6 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
         //Lesson 3 - exercise 4
         //create singleton
         final AppSettingsSingleton presenter = AppSettingsSingleton.getInstance();
-
-        //find all views that should be saved
-        final TextInputLayout cityNameField = findViewById(R.id.cityTextInputLayout);
-        final Switch windSwitch = findViewById(R.id.windSwitch);
-        final Switch pressureSwitch = findViewById(R.id.pressureSwitch);
 
         //get saved information from singleton
         cityNameField.getEditText().setText(presenter.getCityFieldText());
@@ -75,13 +77,16 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
         });
     }
 
+    private void initViews(){
+        backButton = findViewById(R.id.backButton);
+        cityNameField = findViewById(R.id.cityTextInputLayout);
+        windSwitch = findViewById(R.id.windSwitch);
+        pressureSwitch = findViewById(R.id.pressureSwitch);
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-
-        final TextInputLayout cityNameField = findViewById(R.id.cityTextInputLayout);
-        final Switch windSwitch = findViewById(R.id.windSwitch);
-        final Switch pressureSwitch = findViewById(R.id.pressureSwitch);
 
         AppSettingsSingleton appSettingsSingleton = AppSettingsSingleton.getInstance();
         cityNameField.getEditText().setText(appSettingsSingleton.getCityFieldText());
@@ -90,11 +95,23 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
 
     }
 
+    @Override
+    protected void onPause() {
+        savePreferences();
+        super.onPause();
+    }
+
+    private void savePreferences() {
+        SharedPreferences appPreferences = getPreferences(MODE_PRIVATE);
+        AppSettingsSingleton appSettingsSingleton = AppSettingsSingleton.getInstance();
+
+        appPreferences.edit().putString("cityName", appSettingsSingleton.getCityFieldText()).apply();
+        appPreferences.edit().putBoolean("windSwitchState", appSettingsSingleton.isWindSwitchChecked()).apply();
+        appPreferences.edit().putBoolean("pressureSwitchState", appSettingsSingleton.isPressureSwitchChecked()).apply();
+    }
+
     public void onBack(){
         //Lesson4 - exercise 1
-        final TextInputLayout cityNameField = findViewById(R.id.cityTextInputLayout);
-        final Switch windSwitch = findViewById(R.id.windSwitch);
-        final Switch pressureSwitch = findViewById(R.id.pressureSwitch);
         CitySelectionInfoParcel additionalWeatherInfo = new CitySelectionInfoParcel(cityNameField.getEditText().getText().toString(), windSwitch.isChecked(), pressureSwitch.isChecked());
 
         Intent intentResult = new Intent();
