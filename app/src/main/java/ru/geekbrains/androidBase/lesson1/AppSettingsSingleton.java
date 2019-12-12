@@ -1,7 +1,7 @@
 package ru.geekbrains.androidBase.lesson1;
 
-public class CitySelectionSingleton {
-    private static CitySelectionSingleton instance = null;
+public class AppSettingsSingleton {
+    private static AppSettingsSingleton instance = null;
 
     private static final Object syncObj = new Object();
 
@@ -10,11 +10,13 @@ public class CitySelectionSingleton {
     //Switches state
     private boolean windSwitchState;
     private boolean pressureSwitchState;
+    private boolean darkThemeSwitchState;
 
-    private CitySelectionSingleton(){
+    private AppSettingsSingleton(){
         cityFieldText = "";
         windSwitchState = true;
         pressureSwitchState = true;
+        darkThemeSwitchState = true;
     }
 
     public String getCityFieldText() {
@@ -41,10 +43,18 @@ public class CitySelectionSingleton {
         this.pressureSwitchState = pressureSwitchState;
     }
 
-    public static CitySelectionSingleton getInstance(){
+    public boolean isDarkThemeSwitchChecked(){
+        return darkThemeSwitchState;
+    }
+
+    public void setDarkThemeSwitchState(boolean darkThemeSwitchState){
+        this.darkThemeSwitchState = darkThemeSwitchState;
+    }
+
+    public static AppSettingsSingleton getInstance(){
         synchronized (syncObj) {
             if (instance == null) {
-                instance = new CitySelectionSingleton();
+                instance = new AppSettingsSingleton();
             }
             return instance;
         }
