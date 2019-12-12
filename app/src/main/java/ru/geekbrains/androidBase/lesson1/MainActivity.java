@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,10 +50,22 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
         //Lesson 6 - exercise 1, 2
         createWeekWeatherList();
 
+        //Android advanced level - lesson 4 SharedPreferences
+        loadPreferences();
 
         Toast.makeText(getApplicationContext(), "onCreate()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onCreate()");
 
+    }
+
+    private void loadPreferences() {
+        SharedPreferences appPreferences = getPreferences(MODE_PRIVATE);
+        AppSettingsSingleton appSettingsSingleton = AppSettingsSingleton.getInstance();
+
+        appSettingsSingleton.setCityFieldText(appPreferences.getString("cityName", ""));
+        appSettingsSingleton.setWindSwitchState(appPreferences.getBoolean("windSwitchState", true));
+        appSettingsSingleton.setPressureSwitchState(appPreferences.getBoolean("pressureSwitchState", true));
+        appSettingsSingleton.setDarkThemeSwitchState(appPreferences.getBoolean("darkThemeSwitchState", true));
     }
 
     private void createWeekWeatherList() {
@@ -103,6 +116,8 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
     @Override
     protected void onStart() {
         super.onStart();
+        startWeatherUpdateService();
+
         Toast.makeText(getApplicationContext(), "onStart()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onStart()");
     }
@@ -124,13 +139,18 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
 
         //moved from onActivityResult method (but here is Singleton initialisation)
         TextView cityNameTextView = findViewById(R.id.cityNameTextView);
-        if(CitySelectionSingleton.getInstance().getCityFieldText().isEmpty())
+        if(AppSettingsSingleton.getInstance().getCityFieldText().isEmpty())
             cityNameTextView.setText(getResources().getString(R.string.no_city_selected));
         else
-            cityNameTextView.setText(CitySelectionSingleton.getInstance().getCityFieldText());
+            cityNameTextView.setText(AppSettingsSingleton.getInstance().getCityFieldText());
 
         Toast.makeText(getApplicationContext(), "onResume()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onResume()");
+    }
+
+    //Android advanced level - lesson 4 (3) Service
+    private void startWeatherUpdateService(){
+        startService(new Intent(MainActivity.this, WeatherUpdateService.class));
     }
 
     private void heavyProcedure() {
@@ -144,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
                     variable = variable * Math.sin(variable*variable/variable)%variable + Math.pow(Math.abs(variable), Math.cos(variable))/variable*variable*0.5%variable - variable;
                 }
                 long finish = System.currentTimeMillis();
-                String message = String.format("Heavy procedure have been completed at %d seconds", ((finish-start)/1000));
+                String message = String.format("Heavy procedure has been completed at %d seconds", ((finish-start)/1000));
 
                 return message;
             }
@@ -162,9 +182,22 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
     @Override
     protected void onPause() {
         WeatherProvider.getInstance().removeListener(this);
+
+        //Android advanced level - lesson 4 SharedPreferences
+        savePreferences();
+
         super.onPause();
         Toast.makeText(getApplicationContext(), "onPause()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onPause()");
+    }
+    private void savePreferences() {
+        SharedPreferences appPreferences = getPreferences(MODE_PRIVATE);
+        AppSettingsSingleton appSettingsSingleton = AppSettingsSingleton.getInstance();
+
+        appPreferences.edit().putString("cityName", appSettingsSingleton.getCityFieldText()).apply();
+        appPreferences.edit().putBoolean("windSwitchState", appSettingsSingleton.isWindSwitchChecked()).apply();
+        appPreferences.edit().putBoolean("pressureSwitchState", appSettingsSingleton.isPressureSwitchChecked()).apply();
+        appPreferences.edit().putBoolean("darkThemeSwitchState", appSettingsSingleton.isDarkThemeSwitchChecked()).apply();
     }
 
     @Override
@@ -191,9 +224,12 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         Toast.makeText(getApplicationContext(), "onDestroy()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onDestroy()");
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
