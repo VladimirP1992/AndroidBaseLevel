@@ -3,8 +3,6 @@ package ru.geekbrains.androidBase.lesson1;
 public class AppSettingsSingleton {
     private static AppSettingsSingleton instance = null;
 
-    private static final Object syncObj = new Object();
-
     //City name text
     private String cityFieldText;
     //Switches state
@@ -52,12 +50,7 @@ public class AppSettingsSingleton {
     }
 
     public static AppSettingsSingleton getInstance(){
-        synchronized (syncObj) {
-            if (instance == null) {
-                instance = new AppSettingsSingleton();
-            }
-            return instance;
-        }
+        return instance = (instance == null) ? new AppSettingsSingleton() : instance;
     }
 
 
