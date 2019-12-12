@@ -14,12 +14,15 @@ public class SettingsActivity extends AppCompatActivity{
     Button backButton;
     Switch darkThemeSwitch;
 
+    AppSettingsSingleton appSettings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
         initViews();
+        appSettings = AppSettingsSingleton.getInstance();
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -28,12 +31,10 @@ public class SettingsActivity extends AppCompatActivity{
             }
         });
 
-        final AppSettingsSingleton presenter = AppSettingsSingleton.getInstance();
-
         darkThemeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                presenter.setDarkThemeSwitchState(isChecked);
+                appSettings.setDarkThemeSwitchState(isChecked);
             }
         });
     }
@@ -47,24 +48,10 @@ public class SettingsActivity extends AppCompatActivity{
     protected void onResume() {
         super.onResume();
 
-        darkThemeSwitch.setChecked(AppSettingsSingleton.getInstance().isDarkThemeSwitchChecked());
+        darkThemeSwitch.setChecked(appSettings.isDarkThemeSwitchChecked());
     }
 
     public void onBack(){
         finish();
-    }
-
-
-    @Override
-    protected void onPause() {
-        savePreferences();
-        super.onPause();
-    }
-
-    private void savePreferences() {
-        SharedPreferences appPreferences = getPreferences(MODE_PRIVATE);
-        AppSettingsSingleton appSettingsSingleton = AppSettingsSingleton.getInstance();
-
-        appPreferences.edit().putBoolean("darkThemeSwitchState", appSettingsSingleton.isDarkThemeSwitchChecked()).apply();
     }
 }
