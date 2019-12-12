@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -31,7 +30,7 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
 
         //Lesson 3 - exercise 4
         //create singleton
-        final CitySelectionSingleton presenter = CitySelectionSingleton.getInstance();
+        final AppSettingsSingleton presenter = AppSettingsSingleton.getInstance();
 
         //find all views that should be saved
         final TextInputLayout cityNameField = findViewById(R.id.cityTextInputLayout);
@@ -74,6 +73,21 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
                 presenter.setPressureSwitchState(isChecked);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        final TextInputLayout cityNameField = findViewById(R.id.cityTextInputLayout);
+        final Switch windSwitch = findViewById(R.id.windSwitch);
+        final Switch pressureSwitch = findViewById(R.id.pressureSwitch);
+
+        AppSettingsSingleton appSettingsSingleton = AppSettingsSingleton.getInstance();
+        cityNameField.getEditText().setText(appSettingsSingleton.getCityFieldText());
+        windSwitch.setChecked(appSettingsSingleton.isWindSwitchChecked());
+        pressureSwitch.setChecked(appSettingsSingleton.isPressureSwitchChecked());
+
     }
 
     public void onBack(){

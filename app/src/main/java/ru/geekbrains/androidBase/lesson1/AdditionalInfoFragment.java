@@ -38,7 +38,7 @@ public class AdditionalInfoFragment extends Fragment implements WeatherProviderL
         super.onResume();
         WeatherProvider.getInstance().addListener(this);
 
-        final CitySelectionSingleton presenter = CitySelectionSingleton.getInstance();
+        final AppSettingsSingleton presenter = AppSettingsSingleton.getInstance();
         LinearLayout windInfo = getActivity().findViewById(R.id.windInfoLinearLayout);
         LinearLayout pressureInfo = getActivity().findViewById(R.id.pressureInfoLinearLayout);
 
