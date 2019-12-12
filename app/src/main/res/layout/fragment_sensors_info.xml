@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sensorsInfoLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#C903A9F4"
+    android:orientation="vertical"
+    tools:context=".SensorsInfoFragment">
+
+    <TextView
+        android:id="@+id/sensorsInfoLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/headersBackground"
+        android:padding="5dp"
+        android:text="@string/phone_sensor_info_label"
+        android:textAlignment="viewStart" />
+
+    <LinearLayout
+        android:id="@+id/temperatureSensorLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/sensorTemperatureLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/temperature_sensor_label" />
+
+        <TextView
+            android:id="@+id/sensorTemperatureValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/humiditySensorLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/sensorHumidityLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="@string/humidity_sensor_label" />
+
+        <TextView
+            android:id="@+id/sensorHumidityValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="" />
+    </LinearLayout>
+
+</LinearLayout>
