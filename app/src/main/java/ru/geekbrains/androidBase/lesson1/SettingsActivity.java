@@ -9,12 +9,13 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
-public class SettingsActivity extends AppCompatActivity{
+public class SettingsActivity extends AppCompatActivity implements ConstantNames{
 
     Button backButton;
     Switch darkThemeSwitch;
 
     AppSettingsSingleton appSettings;
+    SharedPreferences appPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +24,7 @@ public class SettingsActivity extends AppCompatActivity{
 
         initViews();
         appSettings = AppSettingsSingleton.getInstance();
+        appPreferences = getSharedPreferences(APP_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +37,7 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 appSettings.setDarkThemeSwitchState(isChecked);
+                appPreferences.edit().putBoolean(DARK_THEME_SWITCH_STATE, isChecked).apply();
             }
         });
     }

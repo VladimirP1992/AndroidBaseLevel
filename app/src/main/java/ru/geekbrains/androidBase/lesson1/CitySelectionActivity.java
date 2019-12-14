@@ -3,6 +3,7 @@ package ru.geekbrains.androidBase.lesson1;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +22,7 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
     Button backButton;
 
     AppSettingsSingleton appSettings;
+    SharedPreferences appPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
 
         initViews();
         appSettings = AppSettingsSingleton.getInstance();
+        appPreferences = getSharedPreferences(APP_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +48,7 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 appSettings.setCityFieldText(cityTextInputLayout.getEditText().getText().toString());
+                appPreferences.edit().putString(CITY_NAME, cityTextInputLayout.getEditText().getText().toString()).apply();
             }
 
             @Override
@@ -55,6 +59,7 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 appSettings.setWindSwitchState(isChecked);
+                appPreferences.edit().putBoolean(WIND_SWITCH_STATE, isChecked).apply();
             }
         });
 
@@ -62,6 +67,7 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 appSettings.setPressureSwitchState(isChecked);
+                appPreferences.edit().putBoolean(PRESSURE_SWITCH_STATE, isChecked).apply();
             }
         });
     }
