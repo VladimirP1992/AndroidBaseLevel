@@ -75,12 +75,12 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
     }
 
     private void loadPreferences() {
-        SharedPreferences appPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences appPreferences = getSharedPreferences(APP_SHARED_PREFERENCES_NAME, MODE_PRIVATE);
 
-        appSettings.setCityFieldText(appPreferences.getString("cityName", ""));
-        appSettings.setWindSwitchState(appPreferences.getBoolean("windSwitchState", true));
-        appSettings.setPressureSwitchState(appPreferences.getBoolean("pressureSwitchState", true));
-        appSettings.setDarkThemeSwitchState(appPreferences.getBoolean("darkThemeSwitchState", true));
+        appSettings.setCityFieldText(appPreferences.getString(CITY_NAME, ""));
+        appSettings.setWindSwitchState(appPreferences.getBoolean(WIND_SWITCH_STATE, true));
+        appSettings.setPressureSwitchState(appPreferences.getBoolean(PRESSURE_SWITCH_STATE, true));
+        appSettings.setDarkThemeSwitchState(appPreferences.getBoolean(DARK_THEME_SWITCH_STATE, true));
     }
 
     private void createWeekWeatherList() {
@@ -194,20 +194,10 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
     @Override
     protected void onPause() {
         WeatherProvider.getInstance().removeListener(this);
-        savePreferences();
 
         super.onPause();
         Toast.makeText(getApplicationContext(), "onPause()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onPause()");
-    }
-
-    private void savePreferences() {
-        SharedPreferences appPreferences = getPreferences(MODE_PRIVATE);
-
-        appPreferences.edit().putString("cityName", appSettings.getCityFieldText()).apply();
-        appPreferences.edit().putBoolean("windSwitchState", appSettings.isWindSwitchChecked()).apply();
-        appPreferences.edit().putBoolean("pressureSwitchState", appSettings.isPressureSwitchChecked()).apply();
-        appPreferences.edit().putBoolean("darkThemeSwitchState", appSettings.isDarkThemeSwitchChecked()).apply();
     }
 
     @Override
