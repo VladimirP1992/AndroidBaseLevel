@@ -15,6 +15,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
 
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+
 public class WeatherProvider {
     private Set<WeatherProviderListener> listenerSet;
     Handler handler = new Handler();
@@ -22,6 +30,9 @@ public class WeatherProvider {
     private Timer timer;
     private static String cityName = "Moscow"; //Default value;
     private static Object synchObject = new Object();
+
+    private Retrofit retrofit;
+    private OpenWeather weatherApi;
 
     public static void setCity(String cityName) {
         synchronized (synchObject) {
@@ -31,6 +42,10 @@ public class WeatherProvider {
 
     private WeatherProvider() {
         listenerSet = new HashSet<>();
+        retrofit = new Retrofit.Builder().baseUrl("https://api.openweathermap.org").
+                addConverterFactory(GsonConverterFactory.create()).build();
+        weatherApi = retrofit.create(OpenWeather.class);
+
         startRequests();
     }
 
@@ -53,39 +68,21 @@ public class WeatherProvider {
             listenerSet.remove(listener);
         }
     }
+    interface OpenWeather{
+        @GET("data/2.5/weather")
+        Call<WeatherModel> getWeather(@Query("q") String q, @Query("appid") String appId);
+    }
 
-    private WeatherModel getWeather(String cityName) {
-        WeatherModel model = null;
+    private WeatherModel getWeather(String cityName) throws Exception {
 
-        HttpURLConnection urlConnection = null;
-        //Url sample https://api.openweathermap.org/data/2.5/weather?q=Moscow,RU&appid=33512f8887706ed78a064d2a5823381c
-        String urlString = String.format("https://api.openweathermap.org/data/2.5/weather?q=%s,RU&appid=33512f8887706ed78a064d2a5823381c", cityName);
+        Call<WeatherModel> call = weatherApi.getWeather(cityName + ",RU","33512f8887706ed78a064d2a5823381c");
 
-        try {
-            URL url = new URL(urlString);
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setConnectTimeout(10000);
+        Response<WeatherModel> response = call.execute();
 
-            if (urlConnection.getResponseCode() == 200) {
-                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    final String result = in.lines().collect(Collectors.joining("\n"));
-                    Gson gson = new Gson();
-                    model = gson.fromJson(result, WeatherModel.class);
-                }
-            } else {
-                BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getErrorStream()));
-                //process the error somehow
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
-        return model;
+        if(response.isSuccessful())
+            return response.body();
+        else
+            throw new Exception(response.errorBody().string(), null);
     }
 
     private void startRequests() {
@@ -94,17 +91,22 @@ public class WeatherProvider {
             @Override
             public void run() {
                 synchronized (synchObject) {
-                    final WeatherModel model = getWeather(WeatherProvider.cityName); //BAD - hardcoded
-                    if (model == null) return;
+                    try {
+                        final WeatherModel model = getWeather(WeatherProvider.cityName);    //BAD - hardcoded
 
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            for (WeatherProviderListener listener : listenerSet) {
-                                listener.updateWeather(model);
+                        if (model == null) return;
+
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (WeatherProviderListener listener : listenerSet) {
+                                    listener.updateWeather(model);
+                                }
                             }
-                        }
-                    });
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }, 1000, 10000);
