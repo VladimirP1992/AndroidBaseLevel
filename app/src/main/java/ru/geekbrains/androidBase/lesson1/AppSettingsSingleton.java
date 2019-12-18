@@ -17,11 +17,11 @@ public class AppSettingsSingleton {
         darkThemeSwitchState = true;
     }
 
-    public String getCityFieldText() {
+    public synchronized String getCityFieldText() {
         return cityFieldText;
     }
 
-    public void setCityFieldText(String cityFieldText) {
+    public synchronized void setCityFieldText(String cityFieldText) {
         this.cityFieldText = cityFieldText;
     }
 
