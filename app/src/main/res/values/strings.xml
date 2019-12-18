@@ -24,5 +24,6 @@
     <string name="phone_sensor_info_label">Phone sensors readings:</string>
     <string name="temperature_sensor_label">Temperature sensor:</string>
     <string name="humidity_sensor_label">Humidity sensor:</string>
+    <string name="previously_selected_cities">Previously selected cities:</string>
 
 </resources>
