@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
         //Android advanced level - lesson 4 SharedPreferences
         loadPreferences();
 
-        Toast.makeText(getApplicationContext(), "onCreate()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onCreate()");
 
     }
@@ -112,11 +111,21 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
     }
 
     public void openBrowserActivity(){
-        String url = "https://yandex.ru/pogoda/" + cityNameTextView.getText().toString();
+        String cityText = removeCountryFromCityText(cityNameTextView.getText().toString());
+
+        String url = "https://yandex.ru/pogoda/" + cityText;
         Uri uri = Uri.parse(url);
 
         Intent browser = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(browser);
+    }
+    //Костыль для формата ГОРОД,СТРАНА
+    public String removeCountryFromCityText(String rawCityText){
+        StringBuilder cityText = new StringBuilder(rawCityText);
+        int position = cityText.lastIndexOf(",");
+        if(position != -1)
+            cityText.delete(position, cityText.length());
+        return cityText.toString();
     }
 
     @Override
@@ -125,13 +134,11 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    //==========Life cycle outputs===========================================================================
     @Override
     protected void onStart() {
         super.onStart();
         startWeatherUpdateService();
 
-        Toast.makeText(getApplicationContext(), "onStart()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onStart()");
     }
 
@@ -199,37 +206,6 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
         Toast.makeText(getApplicationContext(), "onPause()", Toast.LENGTH_SHORT).show();
         Log.d(TAG,"onPause()");
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle saveInstanceState){
-        super.onSaveInstanceState(saveInstanceState);
-        Toast.makeText(getApplicationContext(), "onSaveInstanceState()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG,"onSaveInstanceState()");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Toast.makeText(getApplicationContext(), "onStop()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG,"onStop()");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Toast.makeText(getApplicationContext(), "onRestart()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG,"onRestart()");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        Toast.makeText(getApplicationContext(), "onDestroy()", Toast.LENGTH_SHORT).show();
-        Log.d(TAG,"onDestroy()");
-    }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
