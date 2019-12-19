@@ -113,7 +113,7 @@
             android:layout_marginTop="16dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
-            android:text="@string/previously_selected_cities"
+            android:text="@string/previously_selected_cities_label"
             android:textAlignment="viewStart" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:paddingStart="16dp"
-            android:paddingEnd="16dp"></androidx.recyclerview.widget.RecyclerView>
+            android:paddingEnd="16dp"/>
 
     </LinearLayout>
 

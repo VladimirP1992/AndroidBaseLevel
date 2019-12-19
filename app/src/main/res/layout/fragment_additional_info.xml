@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@string/windMainLabel" />
+            android:text="@string/wind_label" />
 
         <TextView
             android:id="@+id/windInfo"
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@string/pressureMainLabel" />
+            android:text="@string/pressure_label" />
 
         <TextView
             android:id="@+id/pressureInfo"

@@ -13,17 +13,20 @@
     <string name="wind_switch_information_label">Show wind information</string>
     <string name="pressure_switch_information_label">Show pressure information</string>
     <string name="dark_theme_label">Dark theme</string>
-    <string name="temperatureMainLabel">Temperature:</string>
-    <string name="windMainLabel">Wind:</string>
-    <string name="pressureMainLabel">Pressure:</string>
     <string name="windMainInfo">5 m/s (SW)</string>
     <string name="pressureMainInfo">1000 hpa</string>
     <string name="yandex_pogoda_for_city">yandex.pogoda for city</string>
     <string name="about_developer">About developer</string>
     <string name="feedback_form">Feedback form</string>
+
     <string name="phone_sensor_info_label">Phone sensors readings:</string>
     <string name="temperature_sensor_label">Temperature sensor:</string>
     <string name="humidity_sensor_label">Humidity sensor:</string>
-    <string name="previously_selected_cities">Previously selected cities:</string>
 
+    <string name="previously_selected_cities_label">Previously selected cities:</string>
+    <string name="city_label">City:</string>
+    <string name="temperature_label">Temperature:</string>
+    <string name="wind_label">Wind:</string>
+    <string name="pressure_label">Pressure:</string>
+    <string name="date_label">Date:</string>
 </resources>

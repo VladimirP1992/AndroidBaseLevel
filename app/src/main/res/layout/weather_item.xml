@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="@string/temperatureMainLabel" />
+            android:text="@string/temperature_label" />
 
         <TextView
             android:id="@+id/wi_temperatureValue"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="@string/windMainLabel" />
+            android:text="@string/wind_label" />
 
         <TextView
             android:id="@+id/wi_windValue"
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
-            android:text="@string/pressureMainLabel" />
+            android:text="@string/pressure_label" />
 
         <TextView
             android:id="@+id/wi_pressureValue"
