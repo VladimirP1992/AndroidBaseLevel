@@ -5,7 +5,7 @@ public class AppSettingsSingleton {
 
     //City name text
     private String cityFieldText;
-    //Switches state
+    //Switch states
     private boolean windSwitchState;
     private boolean pressureSwitchState;
     private boolean darkThemeSwitchState;

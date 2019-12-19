@@ -1,6 +1,9 @@
 package ru.geekbrains.androidBase.lesson1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,15 +17,24 @@ import android.widget.Switch;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.sql.SQLException;
+
+import ru.geekbrains.androidBase.lesson1.db.DataSource;
+import ru.geekbrains.androidBase.lesson1.db.DbRecordAdapter;
+
 public class CitySelectionActivity extends AppCompatActivity implements ConstantNames{
 
     TextInputLayout cityTextInputLayout;
     Switch windSwitch;
     Switch pressureSwitch;
     Button backButton;
+    RecyclerView selectedCitiesList;
 
     AppSettingsSingleton appSettings;
     SharedPreferences appPreferences;
+
+    DbRecordAdapter adapter;
+    DataSource dataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +82,9 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
                 appPreferences.edit().putBoolean(PRESSURE_SWITCH_STATE, isChecked).apply();
             }
         });
+
+        //Android 2 lesson 6
+        createCityList();
     }
 
     private void initViews(){
@@ -77,6 +92,25 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
         cityTextInputLayout = findViewById(R.id.cityTextInputLayout);
         windSwitch = findViewById(R.id.windSwitch);
         pressureSwitch = findViewById(R.id.pressureSwitch);
+        selectedCitiesList = findViewById(R.id.previouslySelectedCitiesList);
+    }
+
+    private void createCityList(){
+        dataSource = new DataSource(this);
+        try {
+            dataSource.open();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        selectedCitiesList.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        selectedCitiesList.setLayoutManager(layoutManager);
+        adapter = new DbRecordAdapter(dataSource.getReader());
+        //Todo: maybe some onClickListeners
+        selectedCitiesList.setAdapter(adapter);
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(this,  LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(getDrawable(R.drawable.separator));
+        selectedCitiesList.addItemDecoration(itemDecoration);
     }
 
     @Override

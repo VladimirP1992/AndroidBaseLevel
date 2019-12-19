@@ -13,17 +13,17 @@ public class DataHelper extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
 
     //Table names
-    private static final String CITIES_TABLE_NAME = "cities";
-    private static final String WEATHER_INFO_TABLE_NAME = "weather_info";
+    public static final String CITIES_TABLE_NAME = "cities";
+    public static final String WEATHER_INFO_TABLE_NAME = "weather_info";
 
     //Field names
-    private static final String ID = "id";
-    private static final String ID_CITY = "id_city";
-    private static final String DATE = "date";
-    private static final String TEMPERATURE = "temp";
-    private static final String WIND = "wind";
-    private static final String PRESSURE = "press";
-    private static final String CITY_NAME = "city";
+    public static final String ID = "id";
+    public static final String ID_CITY = "id_city";
+    public static final String DATE = "date";
+    public static final String TEMPERATURE = "temp";
+    public static final String WIND = "wind";
+    public static final String PRESSURE = "press";
+    public static final String CITY_NAME = "city";
 
     public DataHelper(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);

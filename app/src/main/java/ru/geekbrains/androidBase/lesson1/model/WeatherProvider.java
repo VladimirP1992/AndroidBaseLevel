@@ -1,50 +1,37 @@
 package ru.geekbrains.androidBase.lesson1.model;
 
-import android.os.Build;
 import android.os.Handler;
-
-import com.google.gson.Gson;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.stream.Collectors;
-
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
+
 import retrofit2.http.Query;
+import ru.geekbrains.androidBase.lesson1.AppSettingsSingleton;
 
 public class WeatherProvider {
     private Set<WeatherProviderListener> listenerSet;
-    Handler handler = new Handler();
+    private Handler handler = new Handler();
     private static WeatherProvider instance = null;
     private Timer timer;
-    private static String cityName = "Moscow"; //Default value;
-    private static Object synchObject = new Object();
+    private static String cityName = "Moscow,RU"; //Default value;
 
     private Retrofit retrofit;
     private OpenWeather weatherApi;
 
-    public static void setCity(String cityName) {
-        synchronized (synchObject) {
-            WeatherProvider.cityName = cityName;
-        }
-    }
+    private AppSettingsSingleton settingsSingleton;
 
     private WeatherProvider() {
         listenerSet = new HashSet<>();
         retrofit = new Retrofit.Builder().baseUrl("https://api.openweathermap.org").
                 addConverterFactory(GsonConverterFactory.create()).build();
         weatherApi = retrofit.create(OpenWeather.class);
+        settingsSingleton = AppSettingsSingleton.getInstance();
 
         startRequests();
     }
@@ -75,7 +62,7 @@ public class WeatherProvider {
 
     private WeatherModel getWeather(String cityName) throws Exception {
 
-        Call<WeatherModel> call = weatherApi.getWeather(cityName + ",RU","33512f8887706ed78a064d2a5823381c");
+        Call<WeatherModel> call = weatherApi.getWeather(cityName,"33512f8887706ed78a064d2a5823381c");
 
         Response<WeatherModel> response = call.execute();
 
@@ -90,23 +77,22 @@ public class WeatherProvider {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                synchronized (synchObject) {
-                    try {
-                        final WeatherModel model = getWeather(WeatherProvider.cityName);    //BAD - hardcoded
+                try {
+                    //TODO: settingsSingleton.getCityFieldText()
+                    final WeatherModel model = getWeather(WeatherProvider.cityName);
 
-                        if (model == null) return;
+                    if (model == null) return;
 
-                        handler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                for (WeatherProviderListener listener : listenerSet) {
-                                    listener.updateWeather(model);
-                                }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (WeatherProviderListener listener : listenerSet) {
+                                listener.updateWeather(model);
                             }
-                        });
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }, 1000, 10000);
