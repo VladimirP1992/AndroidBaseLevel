@@ -1,5 +1,7 @@
 package ru.geekbrains.androidBase.lesson1;
 
+import ru.geekbrains.androidBase.lesson1.db.DataSource;
+
 public class AppSettingsSingleton {
     private static AppSettingsSingleton instance = null;
 
@@ -10,11 +12,15 @@ public class AppSettingsSingleton {
     private boolean pressureSwitchState;
     private boolean darkThemeSwitchState;
 
+    //Database source
+    private DataSource dataSource;
+
     private AppSettingsSingleton(){
         cityFieldText = "";
         windSwitchState = true;
         pressureSwitchState = true;
         darkThemeSwitchState = true;
+        dataSource = null;
     }
 
     public synchronized String getCityFieldText() {
@@ -47,6 +53,14 @@ public class AppSettingsSingleton {
 
     public void setDarkThemeSwitchState(boolean darkThemeSwitchState){
         this.darkThemeSwitchState = darkThemeSwitchState;
+    }
+
+    public synchronized DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public synchronized void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public static AppSettingsSingleton getInstance(){
