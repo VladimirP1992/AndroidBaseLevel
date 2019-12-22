@@ -58,13 +58,13 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+
+            @Override
+            public void afterTextChanged(Editable s) {
                 appSettings.setCityFieldText(cityTextInputLayout.getEditText().getText().toString());
                 appPreferences.edit().putString(CITY_NAME, cityTextInputLayout.getEditText().getText().toString()).apply();
             }
-
-            @Override
-            public void afterTextChanged(Editable s) { }
         });
 
         windSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -99,6 +99,7 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
         dataSource = new DataSource(this);
         try {
             dataSource.open();
+            AppSettingsSingleton.getInstance().setDataSource(dataSource);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -113,6 +114,11 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
         selectedCitiesList.addItemDecoration(itemDecoration);
     }
 
+    private void refreshData(){
+        dataSource.getReader().refresh();
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -121,6 +127,7 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
         windSwitch.setChecked(appSettings.isWindSwitchChecked());
         pressureSwitch.setChecked(appSettings.isPressureSwitchChecked());
 
+        refreshData();
     }
 
     public void onBack(){

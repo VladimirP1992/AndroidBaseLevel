@@ -36,7 +36,7 @@ public class AdditionalInfoFragment extends Fragment implements WeatherProviderL
     @Override
     public void onResume() {
         super.onResume();
-        WeatherProvider.getInstance().addListener(this);
+        WeatherProvider.getInstance(getActivity()).addListener(this);
 
         final AppSettingsSingleton presenter = AppSettingsSingleton.getInstance();
         LinearLayout windInfo = getActivity().findViewById(R.id.windInfoLinearLayout);
@@ -54,7 +54,7 @@ public class AdditionalInfoFragment extends Fragment implements WeatherProviderL
 
     @Override
     public void onPause() {
-        WeatherProvider.getInstance().removeListener(this);
+        WeatherProvider.getInstance(getActivity()).removeListener(this);
         super.onPause();
     }
 
