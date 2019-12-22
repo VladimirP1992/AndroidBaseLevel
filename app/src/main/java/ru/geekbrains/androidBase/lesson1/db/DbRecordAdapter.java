@@ -12,7 +12,6 @@ import ru.geekbrains.androidBase.lesson1.R;
 
 public class DbRecordAdapter extends RecyclerView.Adapter<DbRecordAdapter.ViewHolder> {
     private final DataReader dataReader;
-
     public DbRecordAdapter(DataReader dataReader){
         this.dataReader = dataReader;
     }
@@ -57,9 +56,9 @@ public class DbRecordAdapter extends RecyclerView.Adapter<DbRecordAdapter.ViewHo
 
             cityValue.setText(record.getCity());
             dateValue.setText(record.getDate());
-            temperatureValue.setText(record.getTemperature());
-            windValue.setText(record.getWind());
-            pressureValue.setText(record.getPressure());
+            temperatureValue.setText(String.valueOf(record.getTemperature()));
+            windValue.setText(String.valueOf(record.getWind()));
+            pressureValue.setText(String.valueOf(record.getPressure()));
         }
     }
 }
