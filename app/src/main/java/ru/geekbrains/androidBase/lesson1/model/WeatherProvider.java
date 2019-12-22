@@ -1,6 +1,9 @@
 package ru.geekbrains.androidBase.lesson1.model;
 
+import android.content.Context;
 import android.os.Handler;
+import android.widget.Toast;
+
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
@@ -13,25 +16,28 @@ import retrofit2.http.GET;
 
 import retrofit2.http.Query;
 import ru.geekbrains.androidBase.lesson1.AppSettingsSingleton;
+import ru.geekbrains.androidBase.lesson1.db.DataSource;
 
 public class WeatherProvider {
     private Set<WeatherProviderListener> listenerSet;
     private Handler handler = new Handler();
     private static WeatherProvider instance = null;
     private Timer timer;
-    private static String cityName = "Moscow,RU"; //Default value;
 
     private Retrofit retrofit;
     private OpenWeather weatherApi;
 
     private AppSettingsSingleton settingsSingleton;
+    private DataSource dataSource;
+    private Context context;
 
-    private WeatherProvider() {
+    private WeatherProvider(Context context) {
         listenerSet = new HashSet<>();
         retrofit = new Retrofit.Builder().baseUrl("https://api.openweathermap.org").
                 addConverterFactory(GsonConverterFactory.create()).build();
         weatherApi = retrofit.create(OpenWeather.class);
         settingsSingleton = AppSettingsSingleton.getInstance();
+        this.context = context;
 
         startRequests();
     }
@@ -40,8 +46,8 @@ public class WeatherProvider {
         return (int) (kelvinTemperature - 273.15);
     }
 
-    public static WeatherProvider getInstance() {
-        return instance = (instance == null) ? new WeatherProvider() : instance;
+    public static WeatherProvider getInstance(Context context) {
+        return instance = (instance == null) ? new WeatherProvider(context) : instance;
     }
 
     public void addListener(WeatherProviderListener listener) {
@@ -66,10 +72,11 @@ public class WeatherProvider {
 
         Response<WeatherModel> response = call.execute();
 
-        if(response.isSuccessful())
+        if (response.isSuccessful()) {
+            dataSource = AppSettingsSingleton.getInstance().getDataSource();
             return response.body();
-        else
-            throw new Exception(response.errorBody().string(), null);
+        }
+        throw new Exception(response.errorBody().string(), null);
     }
 
     private void startRequests() {
@@ -78,10 +85,13 @@ public class WeatherProvider {
             @Override
             public void run() {
                 try {
-                    //TODO: settingsSingleton.getCityFieldText()
-                    final WeatherModel model = getWeather(WeatherProvider.cityName);
+                    String cityName = settingsSingleton.getCityFieldText();
+                    final WeatherModel model = getWeather(cityName);
 
-                    if (model == null) return;
+                    if (model == null) {
+                        return;
+                    }
+                    updateDatabase(model, cityName);
 
                     handler.post(new Runnable() {
                         @Override
@@ -92,10 +102,26 @@ public class WeatherProvider {
                         }
                     });
                 } catch (Exception e) {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            for (WeatherProviderListener listener : listenerSet) {
+                                Toast.makeText(context, "Can't get weather for entered city!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+
                     e.printStackTrace();
                 }
             }
-        }, 1000, 10000);
+        }, 500, 8000);
+    }
+
+    private void updateDatabase(WeatherModel model, String cityName){
+        if(dataSource != null){
+            int temperature = kelvinToCelsius(model.getMain().getTemp());
+            dataSource.updateHistory(cityName, temperature, model.getWind().getSpeed(), model.getMain().getPressure());
+        }
     }
 
     void stop() {
