@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
         //Android advanced level - lesson 3 Async Task
         //heavyProcedure();
 
-        WeatherProvider.getInstance().addListener(this);
+        WeatherProvider.getInstance(this).addListener(this);
 
         //moved from onActivityResult method (but here is Singleton initialisation)
         if(appSettings.getCityFieldText().isEmpty())
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
 
     @Override
     protected void onPause() {
-        WeatherProvider.getInstance().removeListener(this);
+        WeatherProvider.getInstance(this).removeListener(this);
 
         super.onPause();
         Toast.makeText(getApplicationContext(), "onPause()", Toast.LENGTH_SHORT).show();

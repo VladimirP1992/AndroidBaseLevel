@@ -29,4 +29,6 @@
     <string name="wind_label">Wind:</string>
     <string name="pressure_label">Pressure:</string>
     <string name="date_label">Date:</string>
+
+    <string name="updating">updating...</string>
 </resources>
