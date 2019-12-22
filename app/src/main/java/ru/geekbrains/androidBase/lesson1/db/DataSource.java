@@ -7,6 +7,10 @@ import android.database.sqlite.SQLiteDatabase;
 import java.io.Closeable;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import ru.geekbrains.androidBase.lesson1.AppSettingsSingleton;
 
 public class DataSource implements Closeable {
 
@@ -32,50 +36,45 @@ public class DataSource implements Closeable {
             database.close();
         if (reader != null)
             reader.close();
+        AppSettingsSingleton.getInstance().setDataSource(null);
     }
 
-    public DbRecord add(String city, String date, int temperature, int wind, int pressure){
+    public void updateHistory(String city, int temperature, int wind, int pressure){
+        //move city name to lower case
+        String cityString = city.toLowerCase();
+        //get nows date
+        Date dateNow = new Date();
+        SimpleDateFormat formatForDateNow = new SimpleDateFormat("yyyy.MM.dd");
+        String dateString = formatForDateNow.format(dateNow);
 
-        //Todo: CHECK IF CITY ALREADY EXISTS (IN LOW REGISTER) - insert/update
+        ContentValues values;
 
-        DbRecord record = new DbRecord();
+        //get city id
+        long idCity;
+        boolean isCityExists = reader.isCityExists(cityString);
+        if(isCityExists){
+            //just get idCity from city table
+            idCity = reader.getIdCity(cityString);
+        } else {
+            //insert new city to city table
+            values = new ContentValues();
+            values.put(DataHelper.CITY_NAME, cityString);
+            idCity = database.insert(DataHelper.CITIES_TABLE_NAME, null, values);
+        }
 
-        ContentValues values = new ContentValues();
-        values.put(DataHelper.CITY_NAME, city);
-
-        long idCity = 1; //Todo: database.insert(DataHelper.CITIES_TABLE_NAME, null, values);
-
+        //prepare new row for weather table
         values = new ContentValues();
         values.put(DataHelper.ID_CITY, idCity);
-        values.put(DataHelper.DATE, date);
+        values.put(DataHelper.DATE, dateString);
         values.put(DataHelper.TEMPERATURE, temperature);
         values.put(DataHelper.WIND, wind);
         values.put(DataHelper.PRESSURE, pressure);
-        long idRecord = database.insert(DataHelper.WEATHER_INFO_TABLE_NAME, null, values);
 
-        record.setId(idRecord);
-        record.setIdCity(idCity);
-        record.setCity(city);
-        record.setDate(date);
-        record.setTemperature(temperature);
-        record.setWind(wind);
-        record.setPressure(pressure);
-
-        return record;
-    }
-
-    public void edit(DbRecord record, long idCity, String date, int temperature, int wind, int pressure){
-        ContentValues values = new ContentValues();
-        values.put(DataHelper.ID_CITY, idCity);
-        values.put(DataHelper.DATE, date);
-        values.put(DataHelper.TEMPERATURE, temperature);
-        values.put(DataHelper.WIND, wind);
-        values.put(DataHelper.PRESSURE, pressure);
-        database.update(DataHelper.WEATHER_INFO_TABLE_NAME, values, DataHelper.ID + "=" + record.getId(), null);
-    }
-
-    public void delete(){
-        //Todo: Do i need delete?
+        if(isCityExists){
+            database.update(DataHelper.WEATHER_INFO_TABLE_NAME, values, DataHelper.ID_CITY + "=" + idCity, null);
+        } else {
+            database.insert(DataHelper.WEATHER_INFO_TABLE_NAME, null, values);
+        }
     }
 
     public DataReader getReader() {

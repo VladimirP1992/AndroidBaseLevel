@@ -1,6 +1,7 @@
 package ru.geekbrains.androidBase.lesson1.db;
 
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.io.Closeable;
@@ -8,16 +9,23 @@ import java.io.IOException;
 
 public class DataReader implements Closeable {
     private final SQLiteDatabase database;
-    private Cursor cursor;
-    String[] allColumn =
+
+    private Cursor cursorWeatherTable;
+    private String[] allColumnWeatherTable =
             {
                     DataHelper.ID,
                     DataHelper.ID_CITY,
-                    //DataHelper.CITY_NAME,
                     DataHelper.DATE,
                     DataHelper.TEMPERATURE,
                     DataHelper.WIND,
                     DataHelper.PRESSURE
+            };
+    //Used locally in method
+    private Cursor cursorCityTable;
+    private String[] allColumnCityTable =
+            {
+                    DataHelper.ID,
+                    DataHelper.CITY_NAME,
             };
 
     public DataReader(SQLiteDatabase database) {
@@ -26,11 +34,11 @@ public class DataReader implements Closeable {
 
     public void open(){
         query();
-        cursor.moveToFirst();
+        cursorWeatherTable.moveToFirst();
     }
 
     private void query() {
-        cursor = database.query(DataHelper.WEATHER_INFO_TABLE_NAME, allColumn,
+        cursorWeatherTable = database.query(DataHelper.WEATHER_INFO_TABLE_NAME, allColumnWeatherTable,
                 null,
                 null,
                 null,
@@ -38,37 +46,74 @@ public class DataReader implements Closeable {
                 null);
     }
 
+    private Cursor cityQuery(String selection){
+        Cursor cursor = database.query(DataHelper.CITIES_TABLE_NAME, allColumnCityTable,
+                selection,
+                null,
+                null,
+                null,
+                null);
+
+        return cursor;
+    }
+
+    private String getCityName(long idCity){
+        cursorCityTable = cityQuery(DataHelper.ID + "=" + idCity);
+
+        cursorCityTable.moveToFirst();
+        String cityName = cursorCityTable.getString(1);
+        cursorCityTable.close();
+        return cityName;
+    }
+
+    public boolean isCityExists(String cityName){
+        Cursor cursor = cityQuery(DataHelper.CITY_NAME + "='" + cityName + "'");
+        boolean result = cursor.moveToFirst();
+        cursor.close();
+
+        return result;
+    }
+
+    public long getIdCity(String cityName) throws SQLException {
+        Cursor cursor = cityQuery(DataHelper.CITY_NAME + "='" + cityName + "'");
+        if(cursor.moveToFirst()){
+            return cursor.getLong(0);
+        }
+        throw new SQLException("City was not found!");
+    }
+
     public void refresh(){
-        int position = cursor.getPosition();
+        int positionWeather = cursorWeatherTable.getPosition();
         query();
-        cursor.moveToPosition(position);
+        cursorWeatherTable.moveToPosition(positionWeather);
     }
 
     @Override
     public void close() throws IOException {
-        cursor.close();
+        cursorWeatherTable.close();
     }
 
     private DbRecord cursorToDbRecord(){
         DbRecord record = new DbRecord();
 
-        record.setId(cursor.getLong(0));
-        record.setIdCity(cursor.getLong(1));
-        //Todo: record.setCity();
-        record.setDate(cursor.getString(2));
-        record.setTemperature(cursor.getInt(3));
-        record.setWind(cursor.getInt(4));
-        record.setPressure(cursor.getInt(5));
+        record.setId(cursorWeatherTable.getLong(0));
+        long idCity = cursorWeatherTable.getLong(1);
+        record.setIdCity(idCity);
+        record.setCity(getCityName(idCity));
+        record.setDate(cursorWeatherTable.getString(2));
+        record.setTemperature(cursorWeatherTable.getInt(3));
+        record.setWind(cursorWeatherTable.getInt(4));
+        record.setPressure(cursorWeatherTable.getInt(5));
 
         return record;
     }
 
     public DbRecord getPosition(int position){
-        cursor.moveToPosition(position);
+        cursorWeatherTable.moveToPosition(position);
         return cursorToDbRecord();
     }
 
     public int getCount(){
-        return cursor.getCount();
+        return cursorWeatherTable.getCount();
     }
 }
