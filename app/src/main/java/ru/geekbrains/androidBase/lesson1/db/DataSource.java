@@ -39,7 +39,7 @@ public class DataSource implements Closeable {
         AppSettingsSingleton.getInstance().setDataSource(null);
     }
 
-    public void updateHistory(String city, int temperature, int wind, int pressure){
+    public void updateHistory(String city, double temperature, double wind, double pressure){
         //move city name to lower case
         String cityString = city.toLowerCase();
         //get nows date

@@ -5,9 +5,9 @@ public class DbRecord {
     private long idCity;
     private String city;
     private String date;
-    private int temperature;
-    private int wind;
-    private int pressure;
+    private double temperature;
+    private double wind;
+    private double pressure;
 
     public long getId() {
         return id;
@@ -41,27 +41,27 @@ public class DbRecord {
         this.date = date;
     }
 
-    public int getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(int temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
-    public int getWind() {
+    public double getWind() {
         return wind;
     }
 
-    public void setWind(int wind) {
+    public void setWind(double wind) {
         this.wind = wind;
     }
 
-    public int getPressure() {
+    public double getPressure() {
         return pressure;
     }
 
-    public void setPressure(int pressure) {
+    public void setPressure(double pressure) {
         this.pressure = pressure;
     }
 }

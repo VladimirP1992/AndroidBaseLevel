@@ -1,5 +1,6 @@
 package ru.geekbrains.androidBase.lesson1.db;
 
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,8 @@ public class DbRecordAdapter extends RecyclerView.Adapter<DbRecordAdapter.ViewHo
         TextView windValue;
         TextView pressureValue;
 
+        Resources res;
+
         DbRecord record;
 
         public ViewHolder(@NonNull View itemView) {
@@ -49,6 +52,8 @@ public class DbRecordAdapter extends RecyclerView.Adapter<DbRecordAdapter.ViewHo
             temperatureValue = itemView.findViewById(R.id.ci_temperatureValue);
             windValue = itemView.findViewById(R.id.ci_windValue);
             pressureValue = itemView.findViewById(R.id.ci_pressureValue);
+
+            res = itemView.getResources();
         }
 
         public void fillItemView(DbRecord record) {
@@ -56,9 +61,9 @@ public class DbRecordAdapter extends RecyclerView.Adapter<DbRecordAdapter.ViewHo
 
             cityValue.setText(record.getCity());
             dateValue.setText(record.getDate());
-            temperatureValue.setText(String.valueOf(record.getTemperature()));
-            windValue.setText(String.valueOf(record.getWind()));
-            pressureValue.setText(String.valueOf(record.getPressure()));
+            temperatureValue.setText(String.format("%.1f %s", record.getTemperature(), res.getString(R.string.celsius)));
+            windValue.setText(String.format("%.1f %s", record.getWind(), res.getString(R.string.meters_per_second)));
+            pressureValue.setText(String.format("%.1f %s", record.getPressure(), res.getString(R.string.millimeters_of_mercury)));
         }
     }
 }

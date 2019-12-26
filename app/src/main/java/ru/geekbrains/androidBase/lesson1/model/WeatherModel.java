@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class WeatherModel {
 
-//    @SerializedName("coord")
-//    @Expose
-//    private Coord coord;
+    @SerializedName("coord")
+    @Expose
+    private Coord coord;
 //    @SerializedName("weather")
 //    @Expose
 //    private List<Weather> weather = null;
@@ -30,29 +30,29 @@ public class WeatherModel {
 //    @SerializedName("dt")
 //    @Expose
 //    private Integer dt;
-//    @SerializedName("sys")
-//    @Expose
-//    private Sys sys;
+    @SerializedName("sys")
+    @Expose
+    private Sys sys;
 //    @SerializedName("timezone")
 //    @Expose
 //    private Integer timezone;
-//    @SerializedName("id")
-//    @Expose
-//    private Integer id;
-//    @SerializedName("name")
-//    @Expose
-//    private String name;
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("name")
+    @Expose
+    private String name;
 //    @SerializedName("cod")
 //    @Expose
 //    private Integer cod;
 
-//    public Coord getCoord() {
-//        return coord;
-//    }
-//
-//    public void setCoord(Coord coord) {
-//        this.coord = coord;
-//    }
+    public Coord getCoord() {
+        return coord;
+    }
+
+    public void setCoord(Coord coord) {
+        this.coord = coord;
+    }
 //
 //    public List<Weather> getWeather() {
 //        return weather;
@@ -110,13 +110,13 @@ public class WeatherModel {
 //        this.dt = dt;
 //    }
 //
-//    public Sys getSys() {
-//        return sys;
-//    }
-//
-//    public void setSys(Sys sys) {
-//        this.sys = sys;
-//    }
+    public Sys getSys() {
+        return sys;
+    }
+
+    public void setSys(Sys sys) {
+        this.sys = sys;
+    }
 //
 //    public Integer getTimezone() {
 //        return timezone;
@@ -126,21 +126,21 @@ public class WeatherModel {
 //        this.timezone = timezone;
 //    }
 //
-//    public Integer getId() {
-//        return id;
-//    }
-//
-//    public void setId(Integer id) {
-//        this.id = id;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public void setName(String name) {
-//        this.name = name;
-//    }
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 //
 //    public Integer getCod() {
 //        return cod;

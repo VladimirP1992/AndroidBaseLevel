@@ -43,9 +43,9 @@ public class DataHelper extends SQLiteOpenHelper {
                 append(ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT,").
                 append(ID_CITY).append(" INTEGER,").
                 append(DATE).append(" TEXT,").
-                append(TEMPERATURE).append(" INTEGER,").
-                append(WIND).append(" INTEGER,").
-                append(PRESSURE).append(" INTEGER);");
+                append(TEMPERATURE).append(" REAL,").
+                append(WIND).append(" REAL,").
+                append(PRESSURE).append(" REAL);");
 
         db.execSQL(query.toString());
     }
