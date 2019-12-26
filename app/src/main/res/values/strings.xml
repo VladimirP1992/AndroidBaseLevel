@@ -44,4 +44,5 @@
     <string name="latitude_label">Latitude:</string>
     <string name="longitude_label">Longitude:</string>
     <string name="cant_find_city_by_coordinate">Can\'t find city by provided coordinates</string>
+    <string name="developer">Developer:</string>
 </resources>
