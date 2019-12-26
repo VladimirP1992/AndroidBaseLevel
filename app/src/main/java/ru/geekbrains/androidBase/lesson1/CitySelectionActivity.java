@@ -253,13 +253,6 @@ public class CitySelectionActivity extends AppCompatActivity implements Constant
     }
 
     public void onBack(){
-        //Lesson4 - exercise 1
-        CitySelectionInfoParcel additionalWeatherInfo = new CitySelectionInfoParcel(cityTextInputLayout.getEditText().getText().toString(), windSwitch.isChecked(), pressureSwitch.isChecked());
-
-        Intent intentResult = new Intent();
-        intentResult.putExtra(ADDITIONAL_INFO, additionalWeatherInfo);
-        setResult(RESULT_OK, intentResult);
-
         finish();
     }
 }
