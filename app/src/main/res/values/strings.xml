@@ -1,20 +1,23 @@
 <resources>
+    <string name="default_comment">No precipitation expected today!</string>
+    <string name="default_temperature">+ 24 С</string>
+    <string name="default_wind">5 m/s (SW)</string>
+    <string name="default_pressure">1000 hpa</string>
+
     <string name="app_name">The best weather app</string>
     <string name="settings">Settings</string>
     <string name="no_city_selected">No city selected</string>
     <string name="moscow">Moscow,RU</string>
     <string name="city_selection_button">city selection</string>
-    <string name="comment">No precipitation expected today!</string>
-    <string name="temperature">+ 24 С</string>
+
     <string name="additional_information_label">Additional information:</string>
     <string name="back_to_main_button">back to main</string>
     <string name="Enter_the_city_name_label">Enter the city name in the field below</string>
-    <string name="enter_the_city_name_hint">Enter the city name… (like - Moscow,RU)</string>
+    <string name="enter_the_city_name_hint">Example - Moscow,RU or London,GB</string>
     <string name="wind_switch_information_label">Show wind information</string>
     <string name="pressure_switch_information_label">Show pressure information</string>
     <string name="dark_theme_label">Dark theme</string>
-    <string name="windMainInfo">5 m/s (SW)</string>
-    <string name="pressureMainInfo">1000 hpa</string>
+
     <string name="yandex_pogoda_for_city">yandex.pogoda for city</string>
     <string name="about_developer">About developer</string>
     <string name="feedback_form">Feedback form</string>
@@ -26,9 +29,19 @@
     <string name="previously_selected_cities_label">Previously selected cities:</string>
     <string name="city_label">City:</string>
     <string name="temperature_label">Temperature:</string>
+    <string name="celsius">C</string>
     <string name="wind_label">Wind:</string>
+    <string name="meters_per_second">m/s</string>
     <string name="pressure_label">Pressure:</string>
+    <string name="millimeters_of_mercury">mmHg</string>
     <string name="date_label">Date:</string>
 
     <string name="updating">updating...</string>
+    <string name="empty_value">-</string>
+
+    <string name="find_city_by_my_location">Find city by my location</string>
+    <string name="find">Find</string>
+    <string name="latitude_label">Latitude:</string>
+    <string name="longitude_label">Longitude:</string>
+    <string name="cant_find_city_by_coordinate">Can\'t find city by provided coordinates</string>
 </resources>

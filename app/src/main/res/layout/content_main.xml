@@ -66,7 +66,7 @@
             android:background="#B403A9F4"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:text="@string/comment"
+            android:text="@string/default_comment"
             android:textAlignment="center"
             android:textColor="#FF9800"
             android:textSize="24sp" />
