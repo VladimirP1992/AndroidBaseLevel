@@ -3,6 +3,7 @@ package ru.geekbrains.androidBase.lesson1;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -20,6 +21,10 @@ import ru.geekbrains.androidBase.lesson1.model.WeatherProviderListener;
  */
 public class AdditionalInfoFragment extends Fragment implements WeatherProviderListener {
 
+    private TextView windInfoTextView;
+    private TextView pressureInfoTextView;
+    private LinearLayout windInfoLinearLayout;
+    private LinearLayout pressureInfoLinearLayout;
 
     public AdditionalInfoFragment() {
         // Required empty public constructor
@@ -34,22 +39,36 @@ public class AdditionalInfoFragment extends Fragment implements WeatherProviderL
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initViews();
+    }
+
+    private void initViews(){
+        windInfoTextView =  getActivity().findViewById(R.id.windInfo);
+        pressureInfoTextView = getActivity().findViewById(R.id.pressureInfo);
+        windInfoLinearLayout = getActivity().findViewById(R.id.windInfoLinearLayout);
+        pressureInfoLinearLayout = getActivity().findViewById(R.id.pressureInfoLinearLayout);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         WeatherProvider.getInstance(getActivity()).addListener(this);
 
         final AppSettingsSingleton presenter = AppSettingsSingleton.getInstance();
-        LinearLayout windInfo = getActivity().findViewById(R.id.windInfoLinearLayout);
-        LinearLayout pressureInfo = getActivity().findViewById(R.id.pressureInfoLinearLayout);
 
-        windInfo.setVisibility(presenter.isWindSwitchChecked() ? View.VISIBLE : View.GONE);
-        pressureInfo.setVisibility(presenter.isPressureSwitchChecked() ? View.VISIBLE : View.GONE);
+        windInfoLinearLayout.setVisibility(presenter.isWindSwitchChecked() ? View.VISIBLE : View.GONE);
+        pressureInfoLinearLayout.setVisibility(presenter.isPressureSwitchChecked() ? View.VISIBLE : View.GONE);
     }
 
     @Override
     public void updateWeather(WeatherModel model) {
-        ((TextView) getActivity().findViewById(R.id.windInfo)).setText(String.format("%d m/s", model.getWind().getSpeed()));
-        ((TextView) getActivity().findViewById(R.id.pressureInfo)).setText(String.format("%d hpa", model.getMain().getPressure()));
+        double wind = model.getWind().getSpeed();
+        double pressure = WeatherProvider.hectopascalTOMmOfMercury(model.getMain().getPressure());
+
+        windInfoTextView.setText(String.format("%.1f %s", wind, getResources().getString(R.string.meters_per_second)));
+        pressureInfoTextView.setText(String.format("%.1f %s", pressure, getResources().getString(R.string.millimeters_of_mercury)));
     }
 
     @Override

@@ -230,6 +230,10 @@ public class MainActivity extends AppCompatActivity implements ConstantNames, We
 
     @Override
     public void updateWeather(WeatherModel model) {
-        temperatureTextView.setText(String.format("%d C",WeatherProvider.kelvinToCelsius(model.getMain().getTemp())));
+        double temperature = WeatherProvider.kelvinToCelsius(model.getMain().getTemp());
+        temperatureTextView.setText(String.format("%.1f %s", temperature, getResources().getString(R.string.celsius)));
+
+        String cityName = String.format("%s,%s", model.getName(), model.getSys().getCountry());
+        cityNameTextView.setText(cityName);
     }
 }
