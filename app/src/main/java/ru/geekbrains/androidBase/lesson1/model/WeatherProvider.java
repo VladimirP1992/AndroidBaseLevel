@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -42,8 +43,12 @@ public class WeatherProvider {
         startRequests();
     }
 
-    public static int kelvinToCelsius(double kelvinTemperature) {
-        return (int) (kelvinTemperature - 273.15);
+    public static Double kelvinToCelsius(double kelvinTemperature) {
+        return (kelvinTemperature - 273.15);
+    }
+
+    public static Double hectopascalTOMmOfMercury(double hectopascalPressure) {
+        return (hectopascalPressure * 0.750063755419211);
     }
 
     public static WeatherProvider getInstance(Context context) {
@@ -61,14 +66,18 @@ public class WeatherProvider {
             listenerSet.remove(listener);
         }
     }
-    interface OpenWeather{
+
+    interface OpenWeather {
         @GET("data/2.5/weather")
         Call<WeatherModel> getWeather(@Query("q") String q, @Query("appid") String appId);
+        @GET("data/2.5/weather")
+        Call<WeatherModel> getWeather(@Query("lat") double latitude, @Query("lon") double longitude, @Query("appid") String appId);
     }
 
+    //Get WeatherModel by city name
     private WeatherModel getWeather(String cityName) throws Exception {
 
-        Call<WeatherModel> call = weatherApi.getWeather(cityName,"33512f8887706ed78a064d2a5823381c");
+        Call<WeatherModel> call = weatherApi.getWeather(cityName, "33512f8887706ed78a064d2a5823381c");
 
         Response<WeatherModel> response = call.execute();
 
@@ -77,6 +86,33 @@ public class WeatherProvider {
             return response.body();
         }
         throw new Exception(response.errorBody().string(), null);
+    }
+
+    //Get WeatherModel by coordinates
+    private WeatherModel getWeather(double latitude, double longitude) throws Exception {
+
+        Call<WeatherModel> call = weatherApi.getWeather(latitude, longitude, "33512f8887706ed78a064d2a5823381c");
+
+        Response<WeatherModel> response = call.execute();
+
+        if (response.isSuccessful()) {
+            return response.body();
+        }
+        throw new Exception(response.errorBody().string(), null);
+    }
+    //Get city name by coordinates
+    public String getCityName(double latitude, double longitude){
+        String cityName = "";
+
+        try {
+            final WeatherModel model = getWeather(latitude, longitude);
+            if (model != null) {
+                cityName = String.format("%s,%s", model.getName(), model.getSys().getCountry());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cityName;
     }
 
     private void startRequests() {
@@ -91,6 +127,9 @@ public class WeatherProvider {
                     if (model == null) {
                         return;
                     }
+                    //get correct city name from model
+                    cityName = String.format("%s,%s", model.getName(), model.getSys().getCountry());
+                    settingsSingleton.setCityFieldText(cityName);
                     updateDatabase(model, cityName);
 
                     handler.post(new Runnable() {
@@ -105,9 +144,7 @@ public class WeatherProvider {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            for (WeatherProviderListener listener : listenerSet) {
-                                Toast.makeText(context, "Can't get weather for entered city!", Toast.LENGTH_LONG).show();
-                            }
+                            Toast.makeText(context, "Can't get weather for entered city!", Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -117,10 +154,12 @@ public class WeatherProvider {
         }, 500, 8000);
     }
 
-    private void updateDatabase(WeatherModel model, String cityName){
-        if(dataSource != null){
-            int temperature = kelvinToCelsius(model.getMain().getTemp());
-            dataSource.updateHistory(cityName, temperature, model.getWind().getSpeed(), model.getMain().getPressure());
+    private void updateDatabase(WeatherModel model, String cityName) {
+        if (dataSource != null) {
+            double temperature = kelvinToCelsius(model.getMain().getTemp());
+            double wind = model.getWind().getSpeed();
+            double pressure = hectopascalTOMmOfMercury(model.getMain().getPressure());
+            dataSource.updateHistory(cityName, temperature, wind, pressure);
         }
     }
 
